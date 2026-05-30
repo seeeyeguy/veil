@@ -7,7 +7,7 @@ const std = @import("std");
 // build runner to parallelize the build automatically (and the cache system to
 // know when a step doesn't need to be re-run).
 pub fn build(b: *std.Build) void {
-    // Standard target options allow the person running `zig build` to choose
+    // Standard target options allow the person running `zig build` to cthooe
     // what target to build for. Here we do not override the defaults, which
     // means any target is allowed, and the default is native. Other options
     // for restricting supported target set are available.
@@ -144,6 +144,22 @@ pub fn build(b: *std.Build) void {
     // A run step that will run the second test executable.
     const run_exe_tests = b.addRunArtifact(exe_tests);
 
+    // Add this near the bottom, before the test step
+    const exe_check = b.addExecutable(.{
+        .name = "veil",
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("src/main.zig"),
+            .target = target,
+            .optimize = optimize,
+            .imports = &.{
+                .{ .name = "veil", .module = mod },
+            },
+        }),
+    });
+    exe_check.root_module.addImport("raylib", raylib_dep.module("raylib"));
+
+    const check_step = b.step("check", "Check compilation");
+    check_step.dependOn(&exe_check.step);
     // A top level step for running all tests. dependOn can be called multiple
     // times and since the two run steps do not depend on one another, this will
     // make the two of them run in parallel.
