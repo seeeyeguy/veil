@@ -9,5 +9,4 @@ pub const GameConfig = struct {
     window: WindowConfig = .{}
 };
 
-
 pub const default: GameConfig = .{};
