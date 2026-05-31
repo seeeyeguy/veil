@@ -1,7 +1,7 @@
 const std = @import("std");
 
 // -- enums -------------------------------------------
-pub const Terrian = enum {
+pub const Terrain = enum {
     fresh_water,
     forest,
     seawater,
@@ -9,6 +9,7 @@ pub const Terrian = enum {
     desert,
     plains,
     jungle,
+    ocean,
     arctic
 };
 
@@ -54,7 +55,7 @@ pub const ResourceDeposit = struct {
 
 // Main model for a hex tile
 pub const Hex = struct {
-    terrain: Terrian,
+    terrain: Terrain,
     hex_coord: HexCoord,
 
     resources: []ResourceDeposit,
