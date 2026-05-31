@@ -13,24 +13,24 @@ pub const Camera = struct {
     pub fn init(screen_width: f32, screen_height: f32) Camera {
         return .{
             .inner = rl.Camera2D{
-               .offset = rl.Vector2{.x = screen_width / 2, .y = screen_height / 2},
-               .target = rl.Vector2{.x = 0.0, .y = 0.0},
-               .rotation = 0.0,
-               .zoom = 1.0
+                .offset = rl.Vector2{.x = screen_width / 2, .y = screen_height / 2},
+                .target = rl.Vector2{.x = 0.0, .y = 0.0},
+                .rotation = 0.0,
+                .zoom = 1.0
             },
         };
     }
 
     // update camera
     pub fn update(self: *Camera) void {
-        
+
         // catch left mouse button to pan
         if (rl.isMouseButtonDown(.left)) {
             const delta = rl.getMouseDelta();
             self.inner.target.x -= delta.x / self.inner.zoom;
             self.inner.target.y -= delta.y / self.inner.zoom;
         }
-        
+
         // catch wsad and up/down/left/right keys to pan 
         if (rl.isKeyDown(.w) or rl.isKeyDown(.up))  self.inner.target.y -= pan_speed_factor * rl.getFrameTime();
         if (rl.isKeyDown(.s) or rl.isKeyDown(.down))  self.inner.target.y += pan_speed_factor * rl.getFrameTime();
@@ -45,8 +45,8 @@ pub const Camera = struct {
             self.inner.zoom = @max(min_zoom, @min(self.inner.zoom, max_zoom));
 
             const mouse_world_new = rl.getScreenToWorld2D(rl.getMousePosition(), self.inner);
-            self.inner.target.x = mouse_world.x - mouse_world_new.x; 
-            self.inner.target.y = mouse_world.y - mouse_world.y;
+            self.inner.target.x += mouse_world.x - mouse_world_new.x;
+            self.inner.target.y += mouse_world.y - mouse_world_new.y;
         }
     }
 };
