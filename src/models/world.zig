@@ -1,6 +1,6 @@
 const std = @import("std");
 
-const Hex = @import("hex.zig");
+const Hex = @import("hex.zig").Hex;
 const ResourceDeposit = @import("hex.zig").ResourceDeposit;
 
 pub const World = struct {

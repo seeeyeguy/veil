@@ -15,6 +15,16 @@ pub fn main() !void {
     const allocator = gpa.allocator();
 
     var world = try world_generator(allocator, 10, 10);
+    //TODO: remove debug code
+    for (world.hexes) |row| {
+        for (row) |hex| {
+            std.debug.print("q: {d} r: {d} terrain: {s}\n", .{
+                hex.hex_coord.q,
+                hex.hex_coord.r,
+                @tagName(hex.terrain)
+            });
+        }
+    }
     defer world.deinit(allocator);
 
     const cfg = config.default;

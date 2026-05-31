@@ -67,7 +67,7 @@ pub const Hex = struct {
 
 
     // Alien state
-    alien_presence: AlienPresence,
+    alien_presence: AlienPresence = .none,
     surveilled: bool = false,
     infiltrated: bool = false,
 
